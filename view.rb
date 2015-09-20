@@ -4,21 +4,21 @@ class View
   PLAYERS = {1 => :p1, 2 => :p2}
   OSX_EMOJI = RUBY_PLATFORM =~ /darwin/ && File.exist?("/System/Library/Fonts/Apple Color Emoji.ttf")
   GLYPHS = {
-    empty:       OSX_EMOJI ? "  " : "   ",
+    empty:       OSX_EMOJI ? "⭕ " : "   ",
     p1:          OSX_EMOJI ? "⚪ " : " O ",
     p2:          OSX_EMOJI ? "⚫ " : " X ",
     # left:        OSX_EMOJI ? "◀️  "  : " > ",
     # right:       OSX_EMOJI ? "▶️ "  : " > ",
     # down:        OSX_EMOJI ? "⏬ " : " v ",
-    spacer:      OSX_EMOJI ? "  " : "   ",
-    column_spacer: " ",
-    left_edge:     "|",
-    right_edge:    "|",
-    column_separator:     "|",
-    bottom_row_corner_l:  "'",
-    bottom_row_corner_r:  "'",
-    bottom_row_col:  OSX_EMOJI ? "==" : "===",
-    bottom_row_separator:  OSX_EMOJI ? "'" : "'"
+    spacer:        OSX_EMOJI ? "  " : "   ",
+    column_spacer: OSX_EMOJI ? "" : " ",
+    left_edge:     OSX_EMOJI ? "║" : "║",
+    right_edge:    OSX_EMOJI ? "║" : "║",
+    column_separator:     OSX_EMOJI ? "" : "║",
+    bottom_row_corner_l:  "╚",
+    bottom_row_corner_r:  "╝",
+    bottom_row_col:  OSX_EMOJI ? "══" : "═══",
+    bottom_row_separator:  OSX_EMOJI ? "" :"╩"
   }
 
   # Thanks https://gist.github.com/acook/4190379
@@ -91,7 +91,7 @@ class View
     end
     print GLYPHS[:bottom_row_corner_l]
     print (Array.new (board.width) {GLYPHS[:bottom_row_col]}).join(GLYPHS[:bottom_row_separator])
-    puts GLYPHS[:bottom_row_corner_l]
+    puts GLYPHS[:bottom_row_corner_r]
   end
 
   def display_game(board, player, cursor_position, hide_ui = false)
