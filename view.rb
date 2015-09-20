@@ -1,6 +1,7 @@
 require 'io/console'
 
 class View
+  PLAYERS = {1 => :p1, 2 => :p2}
   OSX_EMOJI = RUBY_PLATFORM =~ /darwin/ && File.exist?("/System/Library/Fonts/Apple Color Emoji.ttf")
   GLYPHS = {
     empty:       OSX_EMOJI ? "  " : "   ",
@@ -72,8 +73,7 @@ class View
   def display_column_selector(player, col, board)
     print GLYPHS[:column_spacer] + (GLYPHS[:column_spacer] + GLYPHS[:spacer]) * (col)
     # print GLYPHS[:left] if col > 0
-    print GLYPHS[:p1] if player == 1
-    print GLYPHS[:p2] if player == 2
+    print GLYPHS[PLAYERS[player]]
     # print GLYPHS[:right] if col < board.width - 1
     # puts
     # print GLYPHS[:column_spacer] + (GLYPHS[:column_spacer] + GLYPHS[:spacer]) * (col)
@@ -92,4 +92,11 @@ class View
     print (Array.new (board.width) {GLYPHS[:bottom_row_col]}).join(GLYPHS[:bottom_row_separator])
     puts GLYPHS[:bottom_row_corner_l]
   end
+
+  def display_board_with_extra_piece(board, player, x, y)
+    temp_board = board.dup
+    temp_board.set(x, y, PLAYERS[player])
+    display_board(temp_board)
+  end
+
 end

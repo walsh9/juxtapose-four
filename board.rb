@@ -9,6 +9,12 @@ class Board
     reset
   end
 
+  def dup
+    new_board = Board.new
+    new_board.board.replace board.reduce([]) {|new_board, cell| new_board << cell}
+    new_board
+  end
+
   def reset
     @board = Array.new (width  * height) { :empty }
   end
@@ -18,6 +24,10 @@ class Board
     y = height - 1 - columns[x].reverse.index(:empty)
     set(x, y, PLAYERS.fetch(player))
     true
+  end
+
+  def set(x, y, value)
+    board[xy_to_index(x, y)] = value
   end
 
   def valid_move?(x)
@@ -63,11 +73,7 @@ class Board
     end
   end
 
-  private
-
-  def set(x, y, value)
-    board[xy_to_index(x, y)] = value
-  end
+  protected
 
   def xy_to_index(x, y)
     y * width + x % width
