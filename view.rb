@@ -67,7 +67,8 @@ class View
   end
 
   def display_current_player(number)
-    puts "Player #{number}'s turn."
+    print "Player #{number}'s turn."
+    puts
   end
 
   def display_column_selector(player, col, board)
@@ -93,10 +94,24 @@ class View
     puts GLYPHS[:bottom_row_corner_l]
   end
 
-  def display_board_with_extra_piece(board, player, x, y)
-    temp_board = board.dup
-    temp_board.set(x, y, PLAYERS[player])
-    display_board(temp_board)
+  def display_game(board, player, cursor_position, hide_ui = false)
+    clear_display
+    unless hide_ui
+      display_current_player(player)
+      display_column_selector(player, cursor_position, board)
+    else
+      print "\n\n\n"
+    end
+    display_board(board)
+  end
+
+  def animate_drop(board, player, x, delay = 0.1)
+    (board.columns[x].count { |cell| cell == :empty }).times do |y|
+      temp_board = board.dup
+      temp_board.set(x, y, PLAYERS[player])
+      display_game(temp_board, player, x, true)
+      sleep delay
+    end
   end
 
 end

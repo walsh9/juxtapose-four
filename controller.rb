@@ -13,11 +13,7 @@ class Controller
 
   def run
     while true
-      view.clear_display
-      view.display_current_player(@player)
-      view.display_column_selector(@player, @cursor_position, board)
-      view.display_board(board)
-
+      view.display_game(board, @player, @cursor_position)
       input = view.get_key
       if input == :left && @cursor_position > 0
         move_cursor(-1)
@@ -32,13 +28,7 @@ class Controller
   end
 
   def drop_piece(x)
-    (board.columns[x].count { |cell| cell == :empty }).times do |y|
-      view.clear_display
-      view.display_current_player(@player)
-      view.display_column_selector(nil, @cursor_position, board)
-      view.display_board_with_extra_piece(board, @player, x, y)
-      sleep 0.2
-    end
+    view.animate_drop(board, @player, @cursor_position)
     board.play_piece(@player, x)
   end
 
