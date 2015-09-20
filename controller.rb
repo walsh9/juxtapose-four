@@ -13,6 +13,14 @@ class Controller
 
   def run
     while true
+      column = get_move
+      drop_piece(column)
+      get_next_player
+    end
+  end
+
+  def get_move
+    while true
       view.display_game(board, @player, @cursor_position)
       input = view.get_key
       if input == :left && @cursor_position > 0
@@ -20,10 +28,8 @@ class Controller
       elsif input == :right && @cursor_position < (board.width - 1)
         move_cursor(1)
       elsif (input == :down || input == :enter) && board.valid_move?(@cursor_position)
-        drop_piece(@cursor_position)
-        get_next_player
+        return @cursor_position
       end
-      #sleep 0.01
     end
   end
 
