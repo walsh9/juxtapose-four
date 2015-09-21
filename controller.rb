@@ -16,10 +16,10 @@ class Controller
       column = get_move
       drop_piece(column)
       if winner?(board)
-        puts "Player #{@current_player} wins!"
+        view.display_win_message(@current_player)
         break
       elsif stalemate?(board)
-        puts "No more moves possible. The game is a tie."
+        view.display_tie_message
         break
       else
         get_next_player

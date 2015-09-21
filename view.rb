@@ -118,4 +118,12 @@ class View
     end
   end
 
+  def display_win_message(player)
+    puts "Player #{player} wins!"
+  end
+
+  def display_tie_message
+    puts "No more moves possible. The game is a tie."
+  end
+
 end
