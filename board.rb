@@ -42,7 +42,7 @@ class Board
     rows.transpose
   end
   
-  def diagonals
+  def diagonals(board = self.board)
     diagonal_arrays = []
     ((-height + 1)...width).each do |x|
       temp_array = []
@@ -55,10 +55,7 @@ class Board
   end
 
   def antidiagonals
-    rows.map! { |row| row.reverse }
-    antidiagonals = diagonals
-    rows.map! { |row| row.reverse }
-    antidiagonals
+    diagonals(rows.map { |row| row.reverse }.flatten)
   end
 
   def to_s

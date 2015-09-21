@@ -101,6 +101,9 @@ describe "Board" do
       expect(test_board.diagonals[0]).to eq [:empty]
       expect(test_board.diagonals[2]).to eq [:empty, :empty, :p1]
       expect(test_board.diagonals[5]).to eq [:empty, :empty, :p2, :p1, :p1, :p2]
+      expect(test_board.antidiagonals[0]).to eq [:p2]
+      expect(test_board.antidiagonals[2]).to eq [:p2, :p2, :p1]
+      expect(test_board.antidiagonals[5]).to eq [:empty, :p1, :p1, :p1, :p1, :p2]
     end
   end
 end

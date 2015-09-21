@@ -3,22 +3,26 @@ require 'io/console'
 class View
   PLAYERS = {1 => :p1, 2 => :p2}
   OSX_EMOJI = RUBY_PLATFORM =~ /darwin/ && File.exist?("/System/Library/Fonts/Apple Color Emoji.ttf")
+  BORDERCOLOR = "\e[5;41;37m"
+  SPACECOLOR = "\e[40;1;30m"
+  CLEARCOLOR = "\e[0m"
   GLYPHS = {
-    empty:       OSX_EMOJI ? "⭕ " : "   ",
-    p1:          OSX_EMOJI ? "⚪ " : " O ",
-    p2:          OSX_EMOJI ? "⚫ " : " X ",
+    empty:       OSX_EMOJI ? ".." : "   ",
+    p1:          OSX_EMOJI ? "🐱 " : "\e[32m O \e[0m",
+    p2:          OSX_EMOJI ? "🐶 " : "\e[31m X \e[0m",
     # left:        OSX_EMOJI ? "◀️  "  : " > ",
     # right:       OSX_EMOJI ? "▶️ "  : " > ",
     # down:        OSX_EMOJI ? "⏬ " : " v ",
     spacer:        OSX_EMOJI ? "  " : "   ",
     column_spacer: OSX_EMOJI ? "" : " ",
-    left_edge:     OSX_EMOJI ? "║" : "║",
-    right_edge:    OSX_EMOJI ? "║" : "║",
-    column_separator:     OSX_EMOJI ? "" : "║",
-    bottom_row_corner_l:  "╚",
-    bottom_row_corner_r:  "╝",
-    bottom_row_col:  OSX_EMOJI ? "══" : "═══",
-    bottom_row_separator:  OSX_EMOJI ? "" :"╩"
+    border_spacer: "  ",
+    left_edge:            OSX_EMOJI ? "#{BORDERCOLOR}🐾 #{CLEARCOLOR}"  : "#{BORDERCOLOR}║#{CLEARCOLOR}",
+    right_edge:           OSX_EMOJI ? "#{BORDERCOLOR}🐾 #{CLEARCOLOR}"  : "#{BORDERCOLOR}║#{CLEARCOLOR}",
+    column_separator:     OSX_EMOJI ? ""                              : "#{BORDERCOLOR}║#{CLEARCOLOR}",
+    bottom_row_corner_l:  OSX_EMOJI ? "#{BORDERCOLOR}🐾 #{CLEARCOLOR}"  : "#{BORDERCOLOR}╚#{CLEARCOLOR}",
+    bottom_row_corner_r:  OSX_EMOJI ? "#{BORDERCOLOR}🐾 #{CLEARCOLOR}"  : "#{BORDERCOLOR}╝#{CLEARCOLOR}",
+    bottom_row_col:       OSX_EMOJI ? "#{BORDERCOLOR}🐾 #{CLEARCOLOR}" : "#{BORDERCOLOR}═══#{CLEARCOLOR}",
+    bottom_row_separator: OSX_EMOJI ? ""                              : "#{BORDERCOLOR}╩#{CLEARCOLOR}"
   }
 
   # Thanks https://gist.github.com/acook/4190379
@@ -72,12 +76,12 @@ class View
   end
 
   def display_column_selector(player, col, board)
-    print GLYPHS[:column_spacer] + (GLYPHS[:column_spacer] + GLYPHS[:spacer]) * (col)
+    print GLYPHS[:border_spacer] + (GLYPHS[:column_spacer] + GLYPHS[:spacer]) * (col)
     # print GLYPHS[:left] if col > 0
     print GLYPHS[PLAYERS[player]]
     # print GLYPHS[:right] if col < board.width - 1
     # puts
-    # print GLYPHS[:column_spacer] + (GLYPHS[:column_spacer] + GLYPHS[:spacer]) * (col)
+    # print GLYPHS[:border_spacer] + (GLYPHS[:column_spacer] + GLYPHS[:spacer]) * (col)
     # print GLYPHS[:down] if board.valid_move?(col)
     puts
     puts
@@ -86,7 +90,7 @@ class View
   def display_board(board)
     board.rows.each do |row|
       print GLYPHS[:left_edge]
-      print row.map { |cell| GLYPHS[cell] }.join(GLYPHS[:column_separator])
+      print row.map { |cell| "#{SPACECOLOR}#{GLYPHS[cell]}#{CLEARCOLOR}" }.join(GLYPHS[:column_separator])
       puts GLYPHS[:right_edge]
     end
     print GLYPHS[:bottom_row_corner_l]
