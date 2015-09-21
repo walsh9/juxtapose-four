@@ -1,12 +1,9 @@
-require_relative "board"
-require_relative "view"
-
 class Controller
   attr_reader :board, :view
 
-  def initialize
-    @board = Board.new
-    @view = View.new
+  def initialize(board, view)
+    @board = board
+    @view = view
     @current_player = 1
     @cursor_position = 0
   end
@@ -67,6 +64,3 @@ class Controller
   end
 
 end
-
-game = Controller.new
-game.run
